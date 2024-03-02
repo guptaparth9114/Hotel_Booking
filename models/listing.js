@@ -11,15 +11,13 @@ const listingSchema = new Schema({
 
   //SETTING DEFAULT VALUE OF LINK IF THERE IS NO LINK.
   image: {
-    // Define the image field to accept objects
-    type: {
-      filename: String,
-      url: String,
-    },
-    default: {
-      filename: "listingimage",
-      url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Focean-beach&psig=AOvVaw2l9FCn_92XS1xbyg0VQsGK&ust=1709402440811000&source=images&cd=vfe&opi=89978449&ved=0CBMQjhxqFwoTCJDI9czS04QDFQAAAAAdAAAAABAD",
-    },
+    type: String,
+    default:
+      "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    set: (v) =>
+      v === ""
+        ? "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+        : v,
   },
   price: Number,
   location: String,
