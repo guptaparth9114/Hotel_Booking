@@ -1,74 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WanderLust</title>
-    <!-- <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-      }
-
-      h3 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-        padding: 1rem;
-        background-color: #4caf50;
-        margin-bottom: 1rem;
-      }
-
-      ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      li {
-        margin: 0.5rem;
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 50%;
-        text-align: center;
-      }
-
-      a {
-        text-decoration: none;
-        color: #333;
-        font-size: 1.2rem;
-      }
-
-      button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        font-size: 1.2rem;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #45a049;
-      }
-    </style> -->
-  </head>
-  <body>
-    <h3>All Listings</h3>
-    <form method="GET" action="/listings/new">
-      <button>Create New Listing</button>
-    </form>
-    <ul>
-      <% for(let listing of allListings) { %>
-      <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
-      <% } %>
-    </ul>
-  </body>
-</html>
+<% layout("/layouts/boilerplate") %>
+<body>
+  <h3>All Listings</h3>
+  <form method="GET" action="/listings/new">
+    <button>Create New Listing</button>
+  </form>
+  <ul>
+    <% for(let listing of allListings) { %>
+    <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
+    <% } %>
+  </ul>
+</body>
