@@ -86,3 +86,14 @@ body {
   background-color: #fe424d !important;
   border: none;
 }
+
+/* show page */
+.show-img {
+  height: 54vh;
+  /* width: 100%; */
+}
+
+.btns {
+  display: flex;
+  padding-bottom: 3rem;
+}
