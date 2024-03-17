@@ -86,6 +86,9 @@ body {
   background-color: #fe424d !important;
   border: none;
 }
+#add-btn:hover {
+  background-color: #b0000c !important;
+}
 
 /* show page */
 .show-img {
