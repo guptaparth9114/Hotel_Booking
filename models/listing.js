@@ -9,7 +9,7 @@ const listingSchema = new Schema({
 
   description: String,
 
-  //SETTING DEFAULT VALUE OF LINK IF THERE IS NO LINK.
+  //SETTING DEFAULT VALUE OF LINK IF THERE IS NO LINK
   image: {
     type: String,
     default:
