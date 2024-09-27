@@ -2,39 +2,42 @@ const express = require("express");
 const app = express();
 const users = require("./route/user.js");
 const posts = require("./route/post.js");
-const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
-app.use(cookieParser("secretcode"));
+const sessionOptions = {
+  secret: "mysupersecretstring",
+  resave: false,
+  saveUninitialized: true,
+};
 
-app.get("/getsignedcookie", (req, res) => {
-  res.cookie("made-in", "India", { signed: true }); // Moved inside the callback
-  res.send("signed cookie sent");
+app.use(session(sessionOptions));
+
+app.get("/register", (req, res) => {
+  // Default value for name is "anonymous" if req.query is empty
+  const { name = "anonymous" } = req.query;
+  req.session.name = name;
+  res.redirect("/hello"); // Send the name as response
 });
 
-app.get("/verify", (req, res) => {
-  console.log(req.signedCookies); // Fixed syntax and correct property name
-  res.send("verified");
+app.get("/hello", (req, res) => {
+  res.send(`hello, ${req.session.name}`); // Send 'hello' as response
 });
 
-app.get("/getcookies", (req, res) => {
-  res.cookie("greet", "namaste");
-  res.cookie("madeIn", "India");
-  res.send("sent you some cookies!");
-});
+// app.get("/reqcount", (req, res) => {
+//   // Check if the count already exists in the session
+//   if (req.session.count) {
+//     req.session.count++; // Increment the count
+//   } else {
+//     req.session.count = 1; // Initialize count if it doesn't exist
+//   }
 
-app.get("/", (req, res) => {
-  console.dir(req.cookies); // Logs the cookies in the console
-  res.send("Hi, I am root!");
-});
+//   // Send the response with the count
+//   res.send(`You sent a request ${req.session.count} times`);
+// });
 
-// Root Route
-app.get("/", (req, res) => {
-  res.send("Hi, I am root!");
-});
-
-// Use the "users" router for all routes starting with /users
-app.use("/users", users);
-app.use("/posts", posts);
+// app.get("/test", (req, res) => {
+//   res.send("test successful!");
+// });
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
