@@ -3,41 +3,49 @@ const app = express();
 const users = require("./route/user.js");
 const posts = require("./route/post.js");
 const session = require("express-session");
+const flash = require("connect-flash");
+const path = require("path");
 
+// Set up view engine
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Session configuration
 const sessionOptions = {
   secret: "mysupersecretstring",
   resave: false,
   saveUninitialized: true,
 };
 
+// Middleware setup
 app.use(session(sessionOptions));
+app.use(flash());
 
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  next();
+});
+
+// Register route
 app.get("/register", (req, res) => {
-  // Default value for name is "anonymous" if req.query is empty
   const { name = "anonymous" } = req.query;
   req.session.name = name;
-  res.redirect("/hello"); // Send the name as response
+  if (name === "anonymous") {
+    req.flash("error", "User not registered");
+  } else {
+    req.session.name = name;
+    req.flash("success", "User registered successfully!");
+  }
+  res.redirect("/hello");
 });
 
 app.get("/hello", (req, res) => {
-  res.send(`hello, ${req.session.name}`); // Send 'hello' as response
+  res.render("page.ejs", {
+    name: req.session.name,
+    msg: req.flash("success"),
+  });
 });
-
-// app.get("/reqcount", (req, res) => {
-//   // Check if the count already exists in the session
-//   if (req.session.count) {
-//     req.session.count++; // Increment the count
-//   } else {
-//     req.session.count = 1; // Initialize count if it doesn't exist
-//   }
-
-//   // Send the response with the count
-//   res.send(`You sent a request ${req.session.count} times`);
-// });
-
-// app.get("/test", (req, res) => {
-//   res.send("test successful!");
-// });
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
